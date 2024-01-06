@@ -1,8 +1,25 @@
 import React, { useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../redux/actions/authAction";
 
 const Header = () => {
   let [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+
+  const handleLogout = () => {
+    // Clear user from local storage
+    localStorage.clear();
+
+    // Dispatch the logout action
+    dispatch(logout());
+
+    alert("You have logged out successfully");
+    // Redirect to the login page or any other page after logout
+    navigate("/login");
+  };
   return (
     <>
       <div className="navbar shadow-md w-full fixed top-0 left-0">
@@ -43,22 +60,38 @@ const Header = () => {
                 Category
               </NavLink>
             </li>
-            <li className="md:ml-8 text-xl md:my-0 my-7">
-              <NavLink
-                to="/register"
-                className="nav-link text-white hover:text-gray-400 duration-500"
-              >
-                Register
-              </NavLink>
-            </li>
-            <li className="md:ml-8 text-xl md:my-0 my-7">
-              <NavLink
-                to="/login"
-                className="nav-link text-white hover:text-gray-400 duration-500"
-              >
-                Login
-              </NavLink>
-            </li>
+            {!user ? (
+              <>
+                <li className="md:ml-8 text-xl md:my-0 my-7">
+                  <NavLink
+                    to="/register"
+                    className="nav-link text-white hover:text-gray-400 duration-500"
+                  >
+                    Register
+                  </NavLink>
+                </li>
+                <li className="md:ml-8 text-xl md:my-0 my-7">
+                  <NavLink
+                    to="/login"
+                    className="nav-link text-white hover:text-gray-400 duration-500"
+                  >
+                    Login
+                  </NavLink>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="md:ml-8 text-xl md:my-0 my-7">
+                  <NavLink
+                    to="/login"
+                    onClick={handleLogout}
+                    className="nav-link text-white hover:text-gray-400 duration-500"
+                  >
+                    Logout
+                  </NavLink>
+                </li>
+              </>
+            )}
             <li className="md:ml-8 text-xl md:my-0 my-7">
               <NavLink
                 to="/cart"
