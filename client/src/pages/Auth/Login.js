@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Layout from "../../components/layout/Layout";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 // import { toast } from "react-toastify";
 // import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
@@ -13,11 +13,12 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogin = (e) => {
     e.preventDefault();
     // Dispatch the loginUser action with credentials and history object
-    dispatch(loginUser({ email, password }, navigate));
+    dispatch(loginUser({ email, password }, navigate, location));
   };
 
   // const handleSubmit = async (e) => {
@@ -91,6 +92,14 @@ const Login = () => {
             >
               Register
             </Link>
+            <div className="mt-2 flex items-center">
+              <Link
+                className="ml-11 font-medium text-sm text-blue-500 hover:text-blue-800"
+                to="/forgot-password"
+              >
+                Forgot password
+              </Link>
+            </div>
             {auth.error && (
               <p className="text-red-500 text-xs mt-1 text-center">
                 {auth.error}

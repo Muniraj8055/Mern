@@ -1,7 +1,7 @@
 import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from "../constants/constant";
 
 const initialState = {
-  user: null,
+  user: null || localStorage.getItem("user"),
   error: null,
 };
 

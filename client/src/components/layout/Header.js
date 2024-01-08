@@ -1,13 +1,21 @@
 import React, { useState } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { logout } from "../../redux/actions/authAction";
 
 const Header = () => {
   let [open, setOpen] = useState(false);
+  const [dropdown, setDropDown] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
+  // Retrieve the user information from local storage
+  const userString = localStorage.getItem("user");
+
+  // Parse the JSON string into a JavaScript object
+  const user = userString ? JSON.parse(userString) : null;
+
+  // Access the 'name' property if the user object is not null
+  const username = user ? user.name : null;
 
   const handleLogout = () => {
     // Clear user from local storage
@@ -20,6 +28,7 @@ const Header = () => {
     // Redirect to the login page or any other page after logout
     navigate("/login");
   };
+
   return (
     <>
       <div className="navbar shadow-md w-full fixed top-0 left-0">
@@ -60,6 +69,14 @@ const Header = () => {
                 Category
               </NavLink>
             </li>
+            <li className="md:ml-8 text-xl md:my-0 my-7">
+              <NavLink
+                to="/cart"
+                className="nav-link text-white hover:text-gray-400 duration-500"
+              >
+                Cart(0)
+              </NavLink>
+            </li>
             {!user ? (
               <>
                 <li className="md:ml-8 text-xl md:my-0 my-7">
@@ -82,24 +99,30 @@ const Header = () => {
             ) : (
               <>
                 <li className="md:ml-8 text-xl md:my-0 my-7">
-                  <NavLink
-                    to="/login"
-                    onClick={handleLogout}
-                    className="nav-link text-white hover:text-gray-400 duration-500"
+                  <button
+                    onClick={() => setDropDown((prev) => !prev)}
+                    className=" relative outline-none focus:outline-none nav-link text-white hover:text-gray-400 duration-500"
                   >
-                    Logout
-                  </NavLink>
+                    {username}
+                  </button>
+                  {/* dropdown */}
+                  {dropdown && (
+                    <div className="lg:absolute bg-gray-50 right-1 rounded-md p-2  ">
+                      <ul className="space-y-2 ">
+                        <li className="flex p-2 font-medium text-sm text-gray-600 rounded hover:bg-gray-200 hover:text-black">
+                          <Link to="/dashboard">Dashboard</Link>
+                        </li>
+                        <li className="flex p-2 font-medium text-sm text-gray-600 rounded hover:bg-gray-200 hover:text-black">
+                          <Link to="/login" onClick={handleLogout}>
+                            Logout
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
                 </li>
               </>
             )}
-            <li className="md:ml-8 text-xl md:my-0 my-7">
-              <NavLink
-                to="/cart"
-                className="nav-link text-white hover:text-gray-400 duration-500"
-              >
-                Cart(0)
-              </NavLink>
-            </li>
           </ul>
         </div>
       </div>

@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 
 const registerController = async (req, res) => {
   try {
-    const { name, email, password, phone, address } = req.body;
+    const { name, email, password, phone, address, answer } = req.body;
     //check user
     const existingUser = await userModel.findOne({ email });
 
@@ -28,6 +28,7 @@ const registerController = async (req, res) => {
       phone,
       address,
       password: hashPassword,
+      answer,
     }).save();
 
     res.status(201).send({
@@ -108,9 +109,55 @@ const loginController = async (req, res) => {
   }
 };
 
+//forgot password
+
+const forgotPasswordController = async (req, res) => {
+  try {
+    const { email, answer, newPassword } = req.body;
+
+    if (!email || !answer || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Email, answer, and new password are required",
+      });
+    }
+
+    // Check if the email and answer are correct or not
+    const user = await userModel.findOne({ email, answer });
+
+    if (!user) {
+      return res.status(403).json({
+        success: false,
+        message: "Wrong Email or Answer",
+      });
+    }
+
+    // If the user is correct, update the new password in the database
+    const hashed = await hashedPassword(newPassword);
+    await userModel.findByIdAndUpdate(user._id, { password: hashed });
+
+    // Send the response once after all operations
+    return res.status(200).json({
+      success: true,
+      message: "Password Reset Successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Wrong Email or Answer",
+      error: error.message, // Use error.message to get the error message
+    });
+  }
+};
 //Test controller
 const testController = (req, res) => {
   res.send("protected route");
 };
 
-module.exports = { registerController, loginController, testController };
+module.exports = {
+  registerController,
+  loginController,
+  testController,
+  forgotPasswordController,
+};

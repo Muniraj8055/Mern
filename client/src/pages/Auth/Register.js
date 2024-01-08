@@ -9,6 +9,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [address, setAddress] = useState("");
+  const [answer, setAnswer] = useState("");
   const [phone, setPhone] = useState("");
   const navigate = useNavigate();
 
@@ -23,6 +24,7 @@ const Register = () => {
           password,
           phone,
           address,
+          answer,
         }
       );
       if (res.data.success) {
@@ -40,12 +42,12 @@ const Register = () => {
   return (
     <Layout>
       <div className="flex flex-col justify-center items-center h-96">
-        <h1 className="text-2xl text-gray-800 font-semibold mt-20">REGISTER</h1>
+        <h1 className="text-2xl text-gray-800 font-semibold mt-24">REGISTER</h1>
         <form
           onSubmit={handleSubmit}
-          className="bg-white shadow-lg rounded px-8 pt-6 pb-8 mb-4"
+          className="bg-white shadow-lg rounded px-8 pt-4 pb-4 mb-3"
         >
-          <div className="mb-4">
+          <div className="mb-3">
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="name"
@@ -56,7 +58,7 @@ const Register = () => {
               placeholder="Name"
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-3">
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="emai"
@@ -67,7 +69,7 @@ const Register = () => {
               placeholder="Email"
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-3">
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="password"
@@ -78,7 +80,7 @@ const Register = () => {
               placeholder="Password"
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-3">
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="phone"
@@ -89,7 +91,7 @@ const Register = () => {
               placeholder="Phone"
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-3">
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="address"
@@ -100,6 +102,17 @@ const Register = () => {
               placeholder="Address"
             />
           </div>
+          <div className="mb-3">
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="answer"
+              type="text"
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
+              required
+              placeholder="Enter Your favorite movie"
+            />
+          </div>
           <div>
             <button
               className="bg-gray-700 w-full hover:bg-gray-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -107,16 +120,17 @@ const Register = () => {
             >
               REGISTER
             </button>
-            <div className="mt-2 flex items-center justify-between"></div>
-            <span className="text-sm text-gray-700">
-              Already have an account?
-            </span>
-            <Link
-              className="inline-block ml-2 align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-              to="/login"
-            >
-              Login
-            </Link>
+            <div className="mt-2 flex items-center justify-between">
+              <span className="text-sm text-gray-700">
+                Already have an account?
+              </span>
+              <Link
+                className="inline-block ml-2 align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
+                to="/login"
+              >
+                Login
+              </Link>
+            </div>
           </div>
         </form>
       </div>
