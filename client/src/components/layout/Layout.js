@@ -8,7 +8,13 @@ const Layout = ({ children }) => {
   return (
     <div>
       <Header />
-      <main style={{ minHeight: "76vh", marginTop: "57px" }}>
+      <main
+        style={{
+          minHeight: "77vh",
+          marginTop: "50px",
+          backgroundColor: "ButtonHighlight",
+        }}
+      >
         {/* <ToastContainer className="flex flex-col items-center justify-center h-2/6" /> */}
         {children}
       </main>

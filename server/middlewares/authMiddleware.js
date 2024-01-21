@@ -1,8 +1,7 @@
 const JWT = require("jsonwebtoken");
 const userModel = require("../models/userModel");
 
-//Protected routes based on tokens for user
-
+//Protected Routes token base
 const requireSignIn = async (req, res, next) => {
   try {
     const decode = JWT.verify(

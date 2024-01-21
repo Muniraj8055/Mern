@@ -1,8 +1,9 @@
 import React from "react";
 import Layout from "../../components/layout/Layout";
-import UserMenu from "../../components/layout/UserMenu";
+// import axios from "axios";
+import AdminMenu from "../../components/layout/AdminMenu";
 
-const Dashboard = () => {
+const AdminDashboard = () => {
   const userString = localStorage.getItem("user");
 
   // Parse the JSON string into a JavaScript object
@@ -15,8 +16,8 @@ const Dashboard = () => {
           <aside class="w-full sm:w-1/3 md:w-1/4 px-2">
             <div class="top-0 p-4 w-full -z-7">
               {/* <!-- navigation --> */}
-              <ul class="flex flex-col overflow-hidden">
-                <UserMenu />
+              <ul class=" overflow-hidden">
+                <AdminMenu />
               </ul>
             </div>
           </aside>
@@ -35,4 +36,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default AdminDashboard;

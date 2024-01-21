@@ -96,6 +96,7 @@ const loginController = async (req, res) => {
         email: existingUser.email,
         phone: existingUser.phone,
         address: existingUser.address,
+        role: existingUser.role,
         token,
       },
     });
