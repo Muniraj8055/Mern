@@ -9,6 +9,7 @@ const Layout = ({ children }) => {
     <div>
       <Header />
       <main
+        className="md:mt-40"
         style={{
           minHeight: "77vh",
           marginTop: "50px",

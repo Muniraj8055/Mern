@@ -1,13 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/actions/authAction";
+import { fetchCategories } from "../../redux/actions/categoryAction";
+import { Badge } from "antd";
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const { categories } = useSelector((state) => state.category);
+  const cart = useSelector((state) => state.cart.carts);
+  console.log(cart);
   let [open, setOpen] = useState(false);
   const [dropdown, setDropDown] = useState(false);
+  const [catDropDown, setCatDropDown] = useState(false);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+
+  // console.log(cartItems);
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
   // Retrieve the user information from local storage
   const userString = localStorage.getItem("user");
 
@@ -50,7 +63,7 @@ const Header = () => {
           <ul
             className={`md:flex md:items-center md:pb-0 pb-3 absolute md:static bg-gray-700 md:z-auto z-[-1]
           left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${
-            open ? "top-12 opacity-100" : "top-[-490px]"
+            open ? "top-10 opacity-100" : "top-[-490px]"
           } md:opacity-100  duration-500 opacity-0`}
           >
             <li className="md:ml-8 text-xl md:my-0 my-7">
@@ -61,20 +74,39 @@ const Header = () => {
                 Home
               </NavLink>
             </li>
-            <li className="md:ml-8 text-xl md:my-0 my-7">
-              <NavLink
-                to="/category"
-                className="nav-link text-white hover:text-gray-400 duration-500"
+            <li className="md:ml-8 text-xl md:my-0 my-7 relative">
+              <button
+                onClick={() => setCatDropDown((prev) => !prev)}
+                className="relative outline-none focus:outline-none nav-link text-white hover:text-gray-400 duration-500"
               >
-                Category
-              </NavLink>
+                CATEGORY
+              </button>
+              {/* dropdown */}
+              {catDropDown && (
+                <div className="lg:absolute bg-gray-50 rounded-md p-2 max-h-36 overflow-y-auto">
+                  <ul className="space-y-2">
+                    {categories.map((c) => (
+                      <li
+                        key={c._id}
+                        className="flex p-2 cursor-pointer font-medium text-sm text-gray-600 rounded hover:bg-gray-200 hover:text-black"
+                      >
+                        <Link to={`/category/${c.slug}`}>{c.name}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </li>
+
             <li className="md:ml-8 text-xl md:my-0 my-7">
-              <NavLink
-                to="/cart"
-                className="nav-link text-white hover:text-gray-400 duration-500"
-              >
-                Cart(0)
+              <NavLink to="/cart">
+                <Badge
+                  className="nav-link text-white text-xl  hover:text-gray-400 duration-500"
+                  count={cart.length}
+                  showZero
+                >
+                  Cart
+                </Badge>
               </NavLink>
             </li>
             {!user ? (

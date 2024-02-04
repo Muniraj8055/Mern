@@ -23,7 +23,6 @@ export const fetchCategories = () => {
       );
       // console.log(response);
       const data = await response.data.category;
-      console.log(data);
       dispatch(fetchCategoriesSuccess(data));
     } catch (error) {
       dispatch(fetchCategoriesFailure(error.message));

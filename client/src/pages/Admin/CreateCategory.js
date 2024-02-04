@@ -143,39 +143,39 @@ const CreateCategory = () => {
               </ul>
             </div>
           </aside>
-          <div class="w-full md:w-3/4 lg:w-4/5 p-4">
-            <h3 class="mb-4 mt-0 text-3xl text-center font-bold">
+          <div className="w-full md:w-3/4 lg:w-4/5 p-4 mx-auto max-w-full">
+            <h3 className="mb-4 mt-0 text-3xl text-center font-bold">
               Create Category
             </h3>
-            <div class="p-2">
+            <div className="p-2">
               <CategoryForm
                 handleSubmit={handleSubmit}
                 value={name}
                 setValue={setName}
               />
             </div>
-            <div class="flex flex-col overflow-x-auto">
-              <div class="sm:-mx-6 lg:-mx-8">
-                <div class="inline-block w-full sm:px-6 lg:px-8">
-                  <div class="overflow-hidden">
-                    <table class="min-w-full text-center text-sm font-light">
-                      <thead class="border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900">
+            <div className="flex flex-col overflow-x-auto">
+              <div className="sm:-mx-6 lg:-mx-8">
+                <div className="inline-block w-full sm:px-6 lg:px-8">
+                  <div className="overflow-hidden">
+                    <table className="w-full text-center text-sm font-light">
+                      <thead className="border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900">
                         <tr>
-                          <th scope="col" class="px-6 py-4">
+                          <th scope="col" className="text-left px-6 py-4">
                             NAME
                           </th>
-                          <th scope="col" class="px-6 py-4">
+                          <th scope="col" className="px-6 py-4">
                             ACTIONS
                           </th>
-                          <th scope="col" class="px-6 py-4">
+                          <th scope="col" className="px-6 py-4">
                             {/* Add a new header column for consistency */}
                           </th>
                         </tr>
                       </thead>
                       <tbody>
                         {categories?.map((category) => (
-                          <tr key={category._id} class="border">
-                            <td class="text-left whitespace-nowrap px-6 py-4 font-medium">
+                          <tr key={category._id} className="border">
+                            <td className="text-left whitespace-nowrap px-6 py-4 font-medium">
                               {category.name}
                             </td>
                             <td>
@@ -185,18 +185,17 @@ const CreateCategory = () => {
                                   setUpdatedName(category.name);
                                   setSelected(category);
                                 }}
-                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                               >
                                 Edit
                               </button>
                             </td>
-                            <td></td>
                             <td>
                               <button
                                 onClick={() => {
                                   handleDelete(category._id);
                                 }}
-                                class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded"
+                                className="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded"
                               >
                                 Delete
                               </button>
