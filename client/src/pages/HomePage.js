@@ -15,13 +15,12 @@ const HomePage = () => {
   const [checked, setChecked] = useState([]);
   const [radio, setRadio] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage] = useState(4); // Number of products per page
+  const [perPage] = useState(9); // Number of products per page
 
   //cart function
   const handleAddToCart = (product) => {
     alert("Item added to cart successfully");
     dispatch(addToCart(product));
-    console.log(product);
   };
 
   //handle category filter
@@ -39,7 +38,7 @@ const HomePage = () => {
   const getAllProducts = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API}/api/product/get-product`
+        `${process.env.REACT_APP_API}/api/product/get-products`
       );
       setProducts(data.products);
     } catch (error) {
@@ -82,7 +81,7 @@ const HomePage = () => {
 
   // Calculate start and end indices for the current page
   const startIndex = (currentPage - 1) * perPage;
-  const endIndex = startIndex + perPage;
+  const endIndex = Math.min(startIndex + perPage, products.length);
 
   // Slice the products array to get the products for the current page
   const currentProducts = products.slice(startIndex, endIndex);
@@ -160,12 +159,12 @@ const HomePage = () => {
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-2xl font-semibold text-gray-900">
-                          ₹{p.price}
+                          $ {p.price}
                         </span>
 
                         <button
                           onClick={() => handleAddToCart(p)}
-                          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                          className=" bg-amber-400 text-black hover:bg-amber-500 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-amber-400 dark:hover:bg-amber-500 dark:focus:ring-amber-500"
                         >
                           Add to cart
                         </button>

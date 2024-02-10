@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import { NavLink, Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/actions/authAction";
 import { fetchCategories } from "../../redux/actions/categoryAction";
 import { Badge } from "antd";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.category);
   const cart = useSelector((state) => state.cart.carts);
-  console.log(cart);
   let [open, setOpen] = useState(false);
   const [dropdown, setDropDown] = useState(false);
   const [catDropDown, setCatDropDown] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   // console.log(cartItems);
 
@@ -39,13 +40,13 @@ const Header = () => {
 
     alert("You have logged out successfully");
     // Redirect to the login page or any other page after logout
-    navigate("/login");
+    navigate("/login", { state: location.pathname });
   };
 
   return (
     <>
       <div className="navbar shadow-md w-full fixed top-0 left-0">
-        <div className="md:flex items-center justify-between bg-gray-700 py-1 md:px-10 px-7">
+        <div className="md:flex items-center justify-between bg-blue-500 py-1 md:px-10 px-7">
           <div className="font-bold text-xl cursor-pointer flex items-center font-[Poppins] text-white">
             <span className="text-2xl mr-1 pt-2 ">
               <ion-icon name="bag-check-sharp"></ion-icon>
@@ -61,7 +62,7 @@ const Header = () => {
             <ion-icon name={open ? "close" : "menu"}></ion-icon>
           </div>
           <ul
-            className={`md:flex md:items-center md:pb-0 pb-3 absolute md:static bg-gray-700 md:z-auto z-[-1]
+            className={`md:flex md:items-center md:pb-0 pb-3 absolute md:static bg-blue-500 md:z-auto z-[-1]
           left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${
             open ? "top-10 opacity-100" : "top-[-490px]"
           } md:opacity-100  duration-500 opacity-0`}
@@ -69,7 +70,7 @@ const Header = () => {
             <li className="md:ml-8 text-xl md:my-0 my-7">
               <NavLink
                 to="/"
-                className="nav-link text-white hover:text-gray-400 duration-500"
+                className="nav-link text-white hover:text-gray-700 duration-500"
               >
                 Home
               </NavLink>
@@ -77,7 +78,7 @@ const Header = () => {
             <li className="md:ml-8 text-xl md:my-0 my-7 relative">
               <button
                 onClick={() => setCatDropDown((prev) => !prev)}
-                className="relative outline-none focus:outline-none nav-link text-white hover:text-gray-400 duration-500"
+                className="relative outline-none focus:outline-none nav-link text-white hover:text-gray-700 duration-500"
               >
                 CATEGORY
               </button>
@@ -101,7 +102,7 @@ const Header = () => {
             <li className="md:ml-8 text-xl md:my-0 my-7">
               <NavLink to="/cart">
                 <Badge
-                  className="nav-link text-white text-xl  hover:text-gray-400 duration-500"
+                  className="nav-link text-white text-xl  hover:text-gray-700 duration-500"
                   count={cart.length}
                   showZero
                 >
@@ -114,7 +115,7 @@ const Header = () => {
                 <li className="md:ml-8 text-xl md:my-0 my-7">
                   <NavLink
                     to="/register"
-                    className="nav-link text-white hover:text-gray-400 duration-500"
+                    className="nav-link text-white hover:text-gray-700 duration-500"
                   >
                     Register
                   </NavLink>
@@ -122,7 +123,7 @@ const Header = () => {
                 <li className="md:ml-8 text-xl md:my-0 my-7">
                   <NavLink
                     to="/login"
-                    className="nav-link text-white hover:text-gray-400 duration-500"
+                    className="nav-link text-white hover:text-gray-700 duration-500"
                   >
                     Login
                   </NavLink>
@@ -133,10 +134,10 @@ const Header = () => {
                 <li className="md:ml-8 text-xl md:my-0 my-7">
                   <button
                     onClick={() => setDropDown((prev) => !prev)}
-                    className=" relative outline-none focus:outline-none nav-link text-white hover:text-gray-400 duration-500"
+                    className=" relative outline-none focus:outline-none nav-link text-white hover:text-gray-700 duration-500"
                   >
                     <svg
-                      class="inline w-6 h-6 text-gray-800 dark:text-white"
+                      class="inline w-6 h-6 text-gray-800 hover:text-gray-700 dark:text-white"
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"

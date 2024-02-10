@@ -1,23 +1,18 @@
 import React from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-// import { ToastContainer } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+
+// toast.configure();
 
 const Layout = ({ children }) => {
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Header />
-      <main
-        className="md:mt-40"
-        style={{
-          minHeight: "77vh",
-          marginTop: "50px",
-          backgroundColor: "ButtonHighlight",
-        }}
-      >
-        {/* <ToastContainer className="flex flex-col items-center justify-center h-2/6" /> */}
-        {children}
+      <main className="flex-grow bg-ButtonHighlight">
+        <div className="container mx-auto px-4 md:px-0 py-10">{children}</div>
+        <ToastContainer />
       </main>
       <Footer />
     </div>

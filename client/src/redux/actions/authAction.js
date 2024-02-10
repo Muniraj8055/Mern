@@ -1,5 +1,7 @@
 import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from "../constants/constant";
 import axios from "axios";
+import { toast } from "react-toastify";
+// import toast from "react-hot-toast";
 
 // Action creators
 export const loginSuccess = (userData) => ({
@@ -32,8 +34,10 @@ export const loginUser =
         // Dispatch the login success action
         dispatch(loginSuccess(response.data.user));
         // Redirect to the home route
-        alert("Login Success");
+
         navigate(location.state || "/");
+        alert("You have Logged in Successfuly");
+        toast.success("Login Success");
       } else {
         // Dispatch the login failure action
         dispatch(loginFailure(response.data.message));

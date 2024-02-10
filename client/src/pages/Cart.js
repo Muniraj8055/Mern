@@ -6,15 +6,66 @@ import {
   removeFromCart,
   decrementItem,
 } from "../redux/actions/cartAction";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import DropIn from "braintree-web-drop-in-react";
+import axios from "axios";
 
 const Cart = () => {
   //   const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.carts);
+  const [clientToken, setClientToken] = useState("");
   const [price, setPrice] = useState(0);
+  const navigate = useNavigate();
+  const [instance, setInstance] = useState("");
+  const [loading, setLoading] = useState(false);
+  // console.log(cart);
 
-  console.log(cart);
+  //get payment gateway token
+  const getToken = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API}/api/product/braintree/token`
+      );
+      setClientToken(data?.clientToken);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getToken();
+  }, []);
+
+  //handle payments
+  const handlePayment = async () => {
+    try {
+      setLoading(true);
+      console.log("Instance:", instance);
+      const { nonce } = await instance.requestPaymentMethod();
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_API}/api/product/braintree/payment`,
+        {
+          nonce,
+          cart,
+        },
+        {
+          headers: {
+            Authorization: user.token,
+          },
+        }
+      );
+      setLoading(false);
+
+      alert("Payment Completed Successfully ");
+      localStorage.removeItem("carts");
+      navigate("/dashboard/user/orders");
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
 
   const increment = (product) => {
     dispatch(addToCart(product));
@@ -35,8 +86,8 @@ const Cart = () => {
     setPrice(price);
   };
 
-  console.log(price);
-
+  // console.log(price);
+  // console.log(clientToken);
   useEffect(() => {
     totalPrice();
   }, [totalPrice]);
@@ -67,7 +118,9 @@ const Cart = () => {
     <Layout>
       <div className="bg-gray-100 min-h-screen py-8">
         <div className="container mx-auto px-4">
-          <h1 className="text-2xl font-semibold mb-4">Shopping Cart</h1>
+          <h1 className="text-2xl text-center font-semibold mb-4">
+            Shopping Cart
+          </h1>
           <h1 className="text-center bg-light p-2 mb-1">
             {user ? `Hello ${user.name}` : "Hello Guest"}
           </h1>
@@ -161,11 +214,76 @@ const Cart = () => {
                 <hr className="my-2" />
                 <div className="flex justify-between mb-2">
                   <span className="font-semibold">Total</span>
-                  <span className="font-semibold">{price}</span>
+                  <span className="font-semibold">$ {price}</span>
                 </div>
-                <button className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full">
+                <hr className="my-2" />
+                {/* <button className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full">
                   Checkout
-                </button>
+                </button> */}
+                {user?.address ? (
+                  <>
+                    <div className="mt-3">
+                      <h4 className="text-l text-center font-medium ">
+                        Current Address
+                      </h4>
+                      <h5 className="text-l text-center font-medium">
+                        {user?.address}
+                      </h5>
+                      <button
+                        className="bg-amber-400 text-black py-2 px-4 rounded-lg mt-4 w-full"
+                        onClick={() => navigate("/dashboard/user/profile")}
+                      >
+                        Update Address
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <div className="mb-3">
+                    {user ? (
+                      <button
+                        className="bg-amber-400 text-black py-2 px-4 rounded-lg mt-4 w-full"
+                        onClick={() => navigate("/dashboard/user/profile")}
+                      >
+                        Update Address
+                      </button>
+                    ) : (
+                      <button
+                        className="bg-amber-400 text-black py-2 px-4 rounded-lg mt-4 w-full"
+                        onClick={() =>
+                          navigate("/login", {
+                            state: "/cart",
+                          })
+                        }
+                      >
+                        Login to checkout
+                      </button>
+                    )}
+                  </div>
+                )}
+                <div className="mt-3">
+                  {!clientToken || !cart?.length ? (
+                    ""
+                  ) : (
+                    <>
+                      <DropIn
+                        options={{
+                          authorization: clientToken,
+                          paypal: {
+                            flow: "vault",
+                          },
+                        }}
+                        onInstance={(instance) => setInstance(instance)}
+                      />
+                      <button
+                        className="bg-orange-500 hover:bg-orange-600  cursor-pointer text-white py-2 px-4 rounded-lg mt-4 w-full"
+                        onClick={handlePayment}
+                        disabled={!user}
+                      >
+                        {loading ? "Processing ...." : "Make Payment"}
+                      </button>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>

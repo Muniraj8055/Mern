@@ -62,7 +62,7 @@ const Products = () => {
                       </Link>
                       <div className="flex items-center mt-2.5 mb-5">
                         <div className="flex items-center text-gray-900 space-x-1 rtl:space-x-reverse">
-                          <p>{p.description}</p>
+                          <p>{p.description.substring(0, 30)}...</p>
                         </div>
                       </div>
                       {/* <div className="flex items-center justify-between">

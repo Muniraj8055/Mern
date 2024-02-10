@@ -5,6 +5,10 @@ const {
   loginController,
   testController,
   forgotPasswordController,
+  updateProfileController,
+  getOrdersController,
+  getAllOrdersController,
+  orderStatusController,
 } = require("../controllers/authController");
 const { requireSignIn, isAdmin } = require("../middlewares/authMiddleware");
 
@@ -26,8 +30,24 @@ router.get("/user-auth", requireSignIn, (req, res) => {
 });
 
 //Admin-Protected route
-router.get("/admin-auth", requireSignIn, (req, res) => {
+router.get("/admin-auth", requireSignIn, isAdmin, (req, res) => {
   res.status(200).send({ success: true });
 });
+
+//update profile
+router.put("/profile", requireSignIn, updateProfileController);
+
+//orders
+router.get("/orders", requireSignIn, getOrdersController);
+//orders
+router.get("/all-orders", requireSignIn, isAdmin, getAllOrdersController);
+
+// order status update
+router.put(
+  "/order-status/:orderId",
+  requireSignIn,
+  isAdmin,
+  orderStatusController
+);
 
 module.exports = router;

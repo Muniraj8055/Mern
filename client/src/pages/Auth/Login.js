@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Layout from "../../components/layout/Layout";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 // import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 

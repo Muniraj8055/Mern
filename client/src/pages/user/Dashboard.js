@@ -11,9 +11,9 @@ const Dashboard = () => {
   return (
     <Layout>
       <div class="container mx-auto">
-        <div class="flex flex-row flex-wrap py-4">
-          <aside class="w-full sm:w-1/3 md:w-1/4 px-2">
-            <div class="top-0 p-4 w-full -z-7">
+        <div class="flex flex-col md:flex-row py-4">
+          <aside class="w-full md:w-1/4 lg:w-1/5 p-4 bg-gray-200">
+            <div>
               {/* <!-- navigation --> */}
               <ul class="flex flex-col overflow-hidden">
                 <UserMenu />

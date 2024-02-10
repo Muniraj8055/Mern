@@ -63,14 +63,14 @@ const ProductDetails = () => {
             </h1>
             <p className="text-lg mb-4 text-gray-600">{product.description}</p>
             <p className="text-lg mb-4 text-gray-700">
-              Price: ${product.price}
+              <b> Price:</b> $ {product.price}
             </p>
             <p className="text-lg mb-4 text-gray-700">
-              Category: {product?.category?.name}
+              <b>Category:</b> {product?.category?.name}
             </p>
             <button
               onClick={() => handleAddToCart(product)}
-              className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full shadow-md"
+              className=" bg-amber-400 text-black hover:bg-amber-500 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm py-2.5 px-4 text-center dark:bg-amber-400 dark:hover:bg-amber-500 dark:focus:ring-amber-500"
             >
               ADD TO CART
             </button>
@@ -78,7 +78,7 @@ const ProductDetails = () => {
         </div>
       </div>
       <div>
-        <hr className="my-4" />
+        <hr className="my-4 font-bold" />
         <div className="container mx-auto">
           <h6 className="text-2xl font-bold ml-4 mb-4">Similar Products</h6>
           {relatedProducts.length < 1 && (
@@ -113,10 +113,13 @@ const ProductDetails = () => {
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-2xl font-semibold text-gray-900">
-                          ₹{p.price}
+                          $ {p.price}
                         </span>
 
-                        <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <button
+                          onClick={() => handleAddToCart(product)}
+                          className=" bg-amber-400 text-black hover:bg-amber-500 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm py-2.5 px-4 text-center dark:bg-amber-400 dark:hover:bg-amber-500 dark:focus:ring-amber-500"
+                        >
                           Add to cart
                         </button>
                       </div>
